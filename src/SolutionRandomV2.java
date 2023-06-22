@@ -79,5 +79,3 @@ public class SolutionRandomV2 {
         }
     }
 }
-//397772561
-//407802461
