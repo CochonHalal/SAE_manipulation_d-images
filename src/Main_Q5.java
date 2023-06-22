@@ -21,6 +21,10 @@ public class Main_Q5 {
             BufferedImage outputImage = new BufferedImage(width, height, BufferedImage.TYPE_3BYTE_BGR);
 
             // Définir les couleurs à comparer
+            //Orange et noir
+            //Color[] colors = new Color[2];
+            //colors[0] = Color.ORANGE;
+            //colors[1] = Color.BLACK;
             Color[] colors = new Color[5];
             colors[0] = Color.YELLOW;
             colors[1] = Color.GREEN;

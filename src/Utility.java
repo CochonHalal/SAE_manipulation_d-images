@@ -41,4 +41,12 @@ public class Utility {
 
         return closestIndex;
     }
+
+    public static Color generateRandomColor() {
+        int red = (int) (Math.random() * 256);    // Valeur aléatoire entre 0 et 255 pour la composante rouge
+        int green = (int) (Math.random() * 256);  // Valeur aléatoire entre 0 et 255 pour la composante verte
+        int blue = (int) (Math.random() * 256);   // Valeur aléatoire entre 0 et 255 pour la composante bleue
+
+        return new Color(red, green, blue);
+    }
 }
