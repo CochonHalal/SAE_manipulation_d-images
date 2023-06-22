@@ -6,7 +6,7 @@ import java.io.IOException;
 
 public class SolutionRandom {
     public static void main(String[] args) {
-        String inputImagePath = "ressources/copie.png";
+        String inputImagePath = "ressources/coul_10.png";
         String outputImagePath = "copiemoi.png";
 
         try {
@@ -26,33 +26,14 @@ public class SolutionRandom {
             //distance de la meilleure image par rapport à l'original
             long bestImageDistance = -1;
 
-            //score le plus bas sauvé entre les itérations
-            long lowScore = 0;
-
-            //indice couleur avec le score le plus bas
-            int lowScoreIndex = -1;
-
-            //tableau du score de chaque couleur de l'itération précédente
-            long[] score = new long[Integer.parseInt(args[0])];
-
-            //tableau contenant le nombre de fois ou une couleur est utilisé dans l'image
-            long[] nbUtil = new long[Integer.parseInt(args[0])];
-
             //tableau de couleurs aléatoires
             Color[] colors = new Color[Integer.parseInt(args[0])];
-
-            for (int i = 0; i < score.length; i++) {
-                score[i] = 0;
-                nbUtil[i] = 0;
-            }
 
             // Boucle effectuant 100 "lancés" pour trouver les couleurs les plus proches
             for(int i = 0; i < 100; i++) {
                 // Prendre des couleurs aléatoires en fonction du nb de couleurs choisies
                 for (int j = 0; j < Integer.parseInt(args[0]); j++) {
-                    if(j != lowScoreIndex) {
-                        colors[j] = Utility.generateRandomColor();
-                    }
+                    colors[j] = Utility.generateRandomColor();
                 }
 
                 // Parcourir chaque pixel de l'image
@@ -64,29 +45,10 @@ public class SolutionRandom {
                         int closestColorIndex = Utility.findClosestColorIndex(color, colors);
                         Color closestColor = colors[closestColorIndex];
 
-                        // Utilisation +1
-                        nbUtil[closestColorIndex] += 1;
-
-                        // Ajouter le score de la couleur
-                        score[closestColorIndex] = score[closestColorIndex] + Distance.distancePixel(inputImage, x, y, closestColor.getRGB());
-
                         // Appliquer la couleur la plus proche dans l'image de sortie
                         outputImage.setRGB(x, y, closestColor.getRGB());
                     }
                     System.out.println("y : " + y);
-                }
-
-                // Trouver le score le plus bas
-                lowScore = score[0];
-                long scoreFin;
-                for(int s = 1; s < score.length; s++){
-                    if(nbUtil[s] != 0) {
-                        scoreFin = score[s] / nbUtil[s];
-                        if (lowScore > scoreFin) {
-                            lowScore = scoreFin;
-                            lowScoreIndex = s;
-                        }
-                    }
                 }
 
                 // Calculer la distance de l'image
