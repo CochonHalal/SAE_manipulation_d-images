@@ -3,9 +3,14 @@
 
 autonumber
 
+loop nbLance
+loop nbCouleurs
 SolutionRandom -> Utility: generateRandomColor()
 SolutionRandom <-- Utility: Color couleur
+end
 
+loop y
+loop x
 SolutionRandom -> inputImage : getRGB(x, y)
 SolutionRandom <-- inputImage : int rgb
 
@@ -14,11 +19,17 @@ SolutionRandom <-- Utility : int index
 
 SolutionRandom -> outputImage : setRGB(x, y, closestColor.getRGB())
 SolutionRandom <-- outputImage
+end
+end
+
+SolutionRandom -> ImageIO : write(outputImage, "png", new File(outputImagePath+nbIte+".png"))
+SolutionRandom <-- ImageIO
 
 SolutionRandom -> Distance : distance(inputImage, outputImage)
 SolutionRandom <-- Distance : long distance
+end
 
-SolutionRandom -> ImageIO : write(bestImage, "png", new File(outputImagePath))
+SolutionRandom -> ImageIO : write(bestImage, "png", new File(outputImagePath + "Finale.png"))
 SolutionRandom <-- ImageIO
 
 @enduml

@@ -3,12 +3,21 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class SolutionKMeans {
     public static void main(String[] args) {
-        String inputImagePath = "ressources/originale.jpg";
+        Instant start = Instant.now();
+
+        String inputImagePath = "ressources/coul_10.png";
         String outputImagePath = "copiemoi_";
+        int seed = -1;
+        if(args.length > 1) {
+            seed = Integer.parseInt(args[1]);
+        }
 
         try {
             // Charger l'image d'entrée
@@ -23,9 +32,18 @@ public class SolutionKMeans {
 
             Color[] centroides = new Color[Integer.parseInt(args[0])];
 
-            // Initialisation centroïdes
+            Random rand = new Random();
+            if(seed != -1){
+                rand = new Random(seed);
+            }
+
+            // Initialisation centroïdes à partir des données
             for (int i = 0; i < Integer.parseInt(args[0]); i++) {
-                centroides[i] = Utility.generateRandomColorSeed(1234 + i);
+                int x;
+                int y;
+                x = rand.nextInt(inputImage.getWidth()-1);
+                y = rand.nextInt(inputImage.getHeight()-1);
+                centroides[i] = new Color(inputImage.getRGB(x, y));
             }
 
             // Liste de couleurs
@@ -37,11 +55,11 @@ public class SolutionKMeans {
             }
 
             boolean fini = false;
-            int nb=0;
+            int nbIte=0;
 
             // Boucle principale
             while(!fini){
-                nb++;
+                nbIte++;
 
                 // Réinitialisation Groupes
                 for (int j = 0; j < Integer.parseInt(args[0]); j++){
@@ -61,7 +79,7 @@ public class SolutionKMeans {
                     }
                 }
                 // Sauvegarder l'image de sortie
-                ImageIO.write(outputImage, "png", new File(outputImagePath+nb+".png"));
+                ImageIO.write(outputImage, "png", new File(outputImagePath+nbIte+".png"));
 
                 // Nombre de centroides ayant convergé
                 int countEnd = 0;
@@ -70,24 +88,28 @@ public class SolutionKMeans {
                 for(int z = 0; z < Integer.parseInt(args[0]); z++){
                     Color oldCentro = centroides[z];
                     centroides[z] = Utility.barycentre(groupes.get(z));
-                    System.out.println("z : " + z);
                     if(oldCentro.getRGB() == centroides[z].getRGB()){
                         countEnd += 1;
-                        System.out.println("countEnd : " + countEnd);
                     }
                     if(countEnd == Integer.parseInt(args[0])){
                         fini = true;
                     }
                 }
+                System.out.println("nb centroïdes convergés : " + countEnd + " à l'itération : " + nbIte);
             }
 
 
             // Print la distance de l'image par rapport à l'original
             long imageDistance = Distance.distance(inputImage, outputImage);
-            System.out.println("distance : " + imageDistance);
+            System.out.println("Distance SolutionKMeans: " + imageDistance);
+
+            Instant end = Instant.now();
+            Duration elapsedTime = Duration.between(start, end);
+
+            System.out.println("Temps de calcul SolutionKMeans : " + elapsedTime.toMillis() + " millisecondes");
+            System.out.println("Nombre d'itérations : " + nbIte);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 }
-//6798079666
