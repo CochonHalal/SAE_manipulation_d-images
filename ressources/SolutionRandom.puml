@@ -3,22 +3,22 @@
 
 autonumber
 
-SolutionRandomV2 -> Utility: generateRandomColor()
-SolutionRandomV2 <-- Utility: Color couleur
+SolutionRandom -> Utility: generateRandomColor()
+SolutionRandom <-- Utility: Color couleur
 
-SolutionRandomV2 -> inputImage : getRGB(x, y)
-SolutionRandomV2 <-- inputImage : int rgb
+SolutionRandom -> inputImage : getRGB(x, y)
+SolutionRandom <-- inputImage : int rgb
 
-SolutionRandomV2 -> Utility : findClosestColorIndex(color, colors);
-SolutionRandomV2 <-- Utility : int index
+SolutionRandom -> Utility : findClosestColorIndex(color, colors);
+SolutionRandom <-- Utility : int index
 
-SolutionRandomV2 -> outputImage : setRGB(x, y, closestColor.getRGB())
-SolutionRandomV2 <-- outputImage
+SolutionRandom -> outputImage : setRGB(x, y, closestColor.getRGB())
+SolutionRandom <-- outputImage
 
-SolutionRandomV2 -> Distance : distance(inputImage, outputImage)
-SolutionRandomV2 <-- Distance : long distance
+SolutionRandom -> Distance : distance(inputImage, outputImage)
+SolutionRandom <-- Distance : long distance
 
-SolutionRandomV2 -> ImageIO : write(bestImage, "png", new File(outputImagePath))
-SolutionRandomV2 <-- ImageIO
+SolutionRandom -> ImageIO : write(bestImage, "png", new File(outputImagePath))
+SolutionRandom <-- ImageIO
 
 @enduml

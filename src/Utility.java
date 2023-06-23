@@ -20,7 +20,7 @@ public class Utility {
     // Méthode pour trouver l'index de la couleur la plus proche parmi un tableau de couleurs
     public static int findClosestColorIndex(int color, Color[] colors) {
         int closestIndex = 0;
-        if(colors != null) {
+        if (colors != null) {
             int closestDistance = Integer.MAX_VALUE;
 
             int red = (color >> 16) & 0xFF;
@@ -54,7 +54,7 @@ public class Utility {
         return new Color(red, green, blue);
     }
 
-    public static Color generateRandomColorSeed(int seed){
+    public static Color generateRandomColorSeed(int seed) {
         Random rand = new Random(seed);
         int red = (rand.nextInt(256));    // Valeur aléatoire entre 0 et 255 pour la composante rouge
         int green = (rand.nextInt(256));  // Valeur aléatoire entre 0 et 255 pour la composante verte
@@ -64,12 +64,25 @@ public class Utility {
         return new Color(red, green, blue);
     }
 
-    public static int barycentre(ArrayList<Integer> groupe){
+    public static Color barycentre(ArrayList<Integer> groupe) {
         int moyenne = 0;
+        int[] rgbComponents;
+        int red = 0;
+        int green = 0;
+        int blue = 0;
         for (int elem : groupe) {
-            moyenne += elem;
+            rgbComponents = Utility.getRGBComponents(elem);
+            red += rgbComponents[0];
+            green += rgbComponents[1];
+            blue += rgbComponents[2];
         }
-        moyenne = moyenne / groupe.size();
-        return moyenne;
+        if (groupe.size() == 0) {
+            throw new Error("centroide isole");
+        }
+        red = red / groupe.size();
+        green = green / groupe.size();
+        blue = blue / groupe.size();
+
+        return new Color(red, green, blue);
     }
 }
